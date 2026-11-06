@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["infisical", "enrollmentSecret", "infisical-gateway"],
+  "properties": {
+    "global": { "type": "object" },
+    "infisical-gateway": { "type": "object" },
+    "infisical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authRef", "projectSlug", "environmentSlug"],
+      "properties": {
+        "authRef": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "namespace"],
+          "properties": {
+            "name": { "type": "string" },
+            "namespace": { "type": "string" }
+          }
+        },
+        "projectSlug": { "type": "string" },
+        "environmentSlug": { "type": "string" }
+      }
+    },
+    "enrollmentSecret": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "secretName", "secretPath", "recursive", "refreshInterval"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "secretName": { "type": "string", "minLength": 1 },
+        "secretPath": { "type": "string", "minLength": 1 },
+        "recursive": { "type": "boolean" },
+        "refreshInterval": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

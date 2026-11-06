@@ -1,0 +1,32 @@
+# Environment settings live in cluster-config/apps/dev/infisical-gateway.yaml.
+# No secret values belong in this file.
+infisical:
+  authRef:
+    name: ""
+    namespace: ""
+  projectSlug: ""
+  environmentSlug: ""
+
+enrollmentSecret:
+  # Enable only after the shared InfisicalAuth is ready.
+  enabled: false
+  secretName: infisical-gateway-enrollment-token
+  secretPath: /infisical/gateway
+  recursive: true
+  refreshInterval: 60s
+
+# Upstream 1.2.0 defaults already match the live image, PVC size (5Gi),
+# accessModes (ReadWriteOnce), Service and security contexts.
+# Only differences from upstream defaults are listed.
+infisical-gateway:
+  gateway:
+    enrollment:
+      token:
+        # The token is synced by enrollmentSecret, never passed as a chart value.
+        existingSecretRef: infisical-gateway-enrollment-token
+    # Set method=token with name/domain in apps/dev: upstream requires these together.
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 10m
