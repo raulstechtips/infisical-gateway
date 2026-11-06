@@ -1,0 +1,6 @@
+dependencies:
+- name: infisical-gateway
+  repository: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/
+  version: 1.2.0
+digest: sha256:1c0687b309f238348135de325a7f8b7340d573d2d6df4b92c4c382182a98341c
+generated: "2026-10-30T16:20:37.213779-04:00"

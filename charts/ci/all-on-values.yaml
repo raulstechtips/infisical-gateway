@@ -1,0 +1,18 @@
+# Fake connection settings only. No secret values here.
+infisical:
+  authRef:
+    name: fake-universal-auth
+    namespace: fake-auth
+  projectSlug: fake-project
+  environmentSlug: fake-environment
+enrollmentSecret:
+  enabled: true
+infisical-gateway:
+  gateway:
+    name: fake-gateway
+    domain: https://infisical.example.test
+    relayName: fake-relay
+    enrollment:
+      method: token
+  persistence:
+    storageClass: fake-storage-class

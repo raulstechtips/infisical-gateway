@@ -1,0 +1,70 @@
+suite: Connection guards and strict wrapper schema
+templates:
+  - templates/enrollment-secret.yaml
+tests:
+  - it: requires the authentication name
+    values:
+      - ../ci/all-on-values.yaml
+    set:
+      infisical.authRef.name: ""
+    asserts:
+      - failedTemplate:
+          errorMessage: infisical.authRef.name is required when enrollmentSecret is enabled
+  - it: requires the authentication namespace
+    values:
+      - ../ci/all-on-values.yaml
+    set:
+      infisical.authRef.namespace: ""
+    asserts:
+      - failedTemplate:
+          errorMessage: infisical.authRef.namespace is required when enrollmentSecret is enabled
+  - it: requires the project slug
+    values:
+      - ../ci/all-on-values.yaml
+    set:
+      infisical.projectSlug: ""
+    asserts:
+      - failedTemplate:
+          errorMessage: infisical.projectSlug is required when enrollmentSecret is enabled
+  - it: requires the environment slug
+    values:
+      - ../ci/all-on-values.yaml
+    set:
+      infisical.environmentSlug: ""
+    asserts:
+      - failedTemplate:
+          errorMessage: infisical.environmentSlug is required when enrollmentSecret is enabled
+  - it: rejects a target different from the upstream Secret reference
+    values:
+      - ../ci/all-on-values.yaml
+    set:
+      enrollmentSecret.secretName: wrong-secret
+    asserts:
+      - failedTemplate:
+          errorMessage: enrollmentSecret.secretName must match infisical-gateway.gateway.enrollment.token.existingSecretRef when enrollmentSecret is enabled
+  - it: rejects unknown wrapper keys
+    set:
+      enrollmentSecret.foo: x
+    asserts:
+      - failedTemplate:
+          errorMessage: |
+            values don't meet the specifications of the schema(s) in the following chart(s):
+            infisical-gateway:
+            - enrollmentSecret: Additional property foo is not allowed
+  - it: rejects a quoted feature boolean
+    set:
+      enrollmentSecret.enabled: "true"
+    asserts:
+      - failedTemplate:
+          errorMessage: |
+            values don't meet the specifications of the schema(s) in the following chart(s):
+            infisical-gateway:
+            - enrollmentSecret.enabled: Invalid type. Expected: boolean, given: string
+  - it: leaves upstream keys open
+    values:
+      - ../ci/all-on-values.yaml
+    set:
+      infisical-gateway.anyUpstreamKey: x
+    asserts:
+      - hasDocuments:
+          count: 1
