@@ -2,7 +2,7 @@ apiVersion: v2
 name: infisical-gateway
 description: Infisical Gateway with enrollment credentials synced from Infisical
 type: application
-version: 0.0.0
+version: 0.1.0-main-e5f1898-2
 appVersion: "1.1.0"
 dependencies:
   - name: infisical-gateway
